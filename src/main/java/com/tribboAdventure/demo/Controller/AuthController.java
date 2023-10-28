@@ -4,8 +4,8 @@
  */
 package com.tribboAdventure.demo.Controller;
 
-import com.tribboAdventure.demo.DTO.LoginRequest;
-import com.tribboAdventure.demo.DTO.RegisterRequest;
+import com.tribboAdventure.demo.DTO.Request.LoginRequestDTO;
+import com.tribboAdventure.demo.DTO.Request.RegisterRequestDTO;
 import com.tribboAdventure.demo.Exception.MiException;
 import com.tribboAdventure.demo.Service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class AuthController {
     
     
     @PostMapping("/login")
-    public ResponseEntity<?> Login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> Login(@RequestBody LoginRequestDTO request) {
         try {
             return ResponseEntity.ok(authService.login(request));
         } catch (MiException miExeception) {
@@ -36,7 +36,7 @@ public class AuthController {
     }
     
     @PostMapping("/registro")
-    public ResponseEntity<?> registro(@RequestBody RegisterRequest request) {
+    public ResponseEntity<?> registro(@RequestBody RegisterRequestDTO request) {
         try {
             return ResponseEntity.ok(authService.registro(request));
         } catch (MiException miException) {

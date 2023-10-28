@@ -4,9 +4,10 @@
  */
 package com.tribboAdventure.demo.Service;
 
-import com.tribboAdventure.demo.DTO.LoginRequest;
-import com.tribboAdventure.demo.DTO.RegisterRequest;
-import com.tribboAdventure.demo.DTO.TokenResponseDTO;
+import com.tribboAdventure.demo.DTO.Request.LoginRequestDTO;
+import com.tribboAdventure.demo.DTO.Request.RegisterRequestDTO;
+import com.tribboAdventure.demo.DTO.Response.RegisterResponseDTO;
+import com.tribboAdventure.demo.DTO.Response.TokenResponseDTO;
 import com.tribboAdventure.demo.Entity.Usuario;
 import com.tribboAdventure.demo.Enum.Role;
 import com.tribboAdventure.demo.Exception.MiException;
@@ -15,6 +16,7 @@ import com.tribboAdventure.demo.Repository.UsuarioRepository;
 import java.time.LocalDate;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,9 +41,11 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public ResponseEntity<?> registro(RegisterRequest registerRequest) throws MiException {
+    public ResponseEntity<?> registro(RegisterRequestDTO registerRequest) throws MiException {
         Usuario usuario = new Usuario();
-
+        TokenResponseDTO tokenDTO = new TokenResponseDTO();
+        RegisterResponseDTO registerResponseDTO = new RegisterResponseDTO();
+        String token;
         LocalDate fechaNacimiento = registerRequest.validarFecha(registerRequest.getFechaNacimiento());
 
         if (userService.usuarioExiste(registerRequest.getUsername())) {
@@ -58,20 +62,27 @@ public class AuthService {
         usuario.setRole(Role.USER);
         usuario.setAlta(true);
 
+        
         userRepository.save(usuario);
-        throw new ResponseStatusException(HttpStatus.CREATED, "Usuario creado");
+        token = jwtService.getToken(usuario);
+        
+        //Mapeando usuario a clase RegisterResponse
+        BeanUtils.copyProperties(usuario, registerResponseDTO);
+        
+        registerResponseDTO.setToken(token);
+        return ResponseEntity.ok(registerResponseDTO);
     }
 
-    public ResponseEntity<?> login(LoginRequest loginRequest) throws MiException {
+    public ResponseEntity<?> login(LoginRequestDTO loginRequest) throws MiException {
         try {
             
             Optional<Usuario> usuario = userRepository.findByUsername(loginRequest.getUsername());
 
             
-            if (usuario.isPresent()) {
-                //Verifica si el prestador y cliente esta en la db. Si el prestador me da falso, y el cliente me da falso,
-                //los usuarios no estan registrados y larga esa exception. Si alguno me da true sigue con el metodo
-                throw new UsernameNotFoundException("Usuario no registrado");
+            if (!usuario.isPresent()) {
+                //Verifica si el usuario esta en la db. Si el usuariono esta registrado,
+                //larga esa exception. Si me da true sigue con el metodo
+                throw new MiException("Usuario no registrado", HttpStatus.BAD_REQUEST);
             }
             
             UserDetails user = usuario.get();
@@ -79,7 +90,6 @@ public class AuthService {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
             
-            System.out.println(user);
             String token = jwtService.getToken(user);
 
             TokenResponseDTO tokenDTO = new TokenResponseDTO();
@@ -87,7 +97,7 @@ public class AuthService {
 
             return ResponseEntity.ok(tokenDTO);
         }  catch (Exception   e) {
-            throw new MiException("Error de autenticacion", HttpStatus.BAD_REQUEST);
+            throw new MiException(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
