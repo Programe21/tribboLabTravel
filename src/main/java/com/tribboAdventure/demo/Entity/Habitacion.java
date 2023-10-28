@@ -40,9 +40,7 @@ public class Habitacion {
     @Enumerated(EnumType.STRING)
     private TipoHabitacion tipoHabitacion;
     
-    @ManyToOne
-    @JoinColumn(name="id_piso")
-    private Piso piso;
+   
     
     private Integer calcularPrecio(String tipoHab){
         if (this.tipoHabitacion.equalsIgnoreCase(tipoHab)) {

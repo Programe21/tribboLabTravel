@@ -39,10 +39,7 @@ public class Tiket {
     @JoinColumn(name="id_viaje")
     private Viaje viaje;
     
-    @ManyToOne
-    @JoinColumn(name="id_hotel")
-    private Hotel hotel;
-    
+  
     @ManyToOne
     @JoinColumn(name="id_usuario")
     private Usuario usuario;
