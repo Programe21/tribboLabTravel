@@ -4,16 +4,15 @@
  */
 package com.tribboAdventure.demo.Entity;
 
-import com.tribboAdventure.demo.Enum.TipoHabitacion;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,29 +25,23 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="habitaciones")
-public class Habitacion {
+@Table(name="pisos")
+public class Piso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Habitacion;
-    @Enumerated(EnumType.STRING)
-    private TipoHabitacion tipoHabitacion; 
+    private Long id_Piso;
+    private Integer numeroPiso;
     private String descripcion;
-    private Integer numeroCamas;
-    private Integer numeroBaños;
-    private Integer precioHabitacion;
-    private Boolean disponible;
+    private String tipoPiso;
+    private Boolean accesibilidad;
+    private String descripcionAccesibilidad;
     
     @ManyToOne
-    @JoinColumn(name="id_piso")
-    private Piso piso;
+    @JoinColumn(name="id_hotel")
+    private Hotel hotel;
     
-    private Integer calcularPrecio(String tipoHab){
-        if (this.tipoHabitacion.equalsIgnoreCase(tipoHab)) {
-            this.precioHabitacion += 100;
-        } else {
-            this.precioHabitacion += 50;
-        }
-        return precioHabitacion;
-    }
+    @OneToMany(mappedBy = "piso")
+    private List<Habitacion> habitaciones;
+    
+    
 }
