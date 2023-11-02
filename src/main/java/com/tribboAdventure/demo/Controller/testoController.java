@@ -9,6 +9,9 @@ public class testoController {
 
 	@RequestMapping("")
 	public String test() {
-		return "home";
+		return "bienvenidaTribbo";
 	}
 }
+
+
+// despues borrar esta clase

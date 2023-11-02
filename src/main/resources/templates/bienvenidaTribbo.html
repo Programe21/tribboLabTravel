@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Bienvenda</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link th:href="@{css/styles.css}" rel="stylesheet" />
+
+
+</head>
+
+<body>
+	<div class="container">
+		<h1>BIENVENIDO A TRIBBO-ADVENTURE:<span class="nombre"> [[${personName}]]</span></h1>
+		<p>Bienvenido a TribboAdventure, tu puerta de entrada a un mundo lleno de emocionantes travesías y experiencias
+			inolvidables. En nuestra página, te invitamos a explorar destinos únicos, conectarte con culturas
+			fascinantes y descubrir la belleza de nuestro planeta. En cada viaje que emprendas con nosotros, encontrarás
+			aventura, descubrimiento y la oportunidad de crear recuerdos inolvidables.</p>
+
+		<p><span>CODIGO: </span><span class="codigo">[[${verificationCode}]] </span></p>
+
+		<a href="https://www.google.com/">Verificar codigo</a>
+	</div>
+
+	<div class="img-container">
+
+		<img th:src="@{img/avion.jpg}" alt="avion">
+
+	</div>
+
+</body>
+
+</html>

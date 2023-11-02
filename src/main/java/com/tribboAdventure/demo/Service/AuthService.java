@@ -26,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+
 /**
  *
  * @author Admin
@@ -39,14 +40,19 @@ public class AuthService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
+
 
     public ResponseEntity<?> registro(RegisterRequestDTO registerRequest) throws MiException {
         Usuario usuario = new Usuario();
-       // TokenResponseDTO tokenDTO = new TokenResponseDTO();
         RegisterResponseDTO registerResponseDTO = new RegisterResponseDTO();
         String token;
         LocalDate fechaNacimiento = registerRequest.validarFecha(registerRequest.getFechaNacimiento());
-
+        String nombreApellido = registerRequest.getNombreCompleto() + " " + registerRequest.getApellidoCompleto() ;
+        String email = registerRequest.getUsername();
+        
+        
+        //validamos que el email no este registrado y de ser asi devolvemos un msm
         if (userService.usuarioExiste(registerRequest.getUsername())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario existente");
         }
@@ -61,13 +67,20 @@ public class AuthService {
         usuario.setRole(Role.USER);
         usuario.setAlta(true);
 
-        
+        //registramos el usuario
         userRepository.save(usuario);
+        
+       
+		//enviamos el email
+        emailService.sendEmail(nombreApellido , email);
+
+        //generamos el token
         token = jwtService.getToken(usuario);
         
         //Mapeando usuario a clase RegisterResponse
         BeanUtils.copyProperties(usuario, registerResponseDTO);
         
+        //asignamos el token
         registerResponseDTO.setToken(token);
         return ResponseEntity.ok(registerResponseDTO);
     }
