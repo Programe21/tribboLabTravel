@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tribboAdventure.demo.Service;
 
 import com.tribboAdventure.demo.DTO.Request.LoginRequestDTO;
@@ -13,6 +9,7 @@ import com.tribboAdventure.demo.Enum.Role;
 import com.tribboAdventure.demo.Exception.MiException;
 import com.tribboAdventure.demo.Jwt.JwtService;
 import com.tribboAdventure.demo.Repository.UsuarioRepository;
+import com.tribboAdventure.demo.Service.EmailService;
 import java.time.LocalDate;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
