@@ -22,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -43,7 +42,7 @@ public class AuthService {
 
     public ResponseEntity<?> registro(RegisterRequestDTO registerRequest) throws MiException {
         Usuario usuario = new Usuario();
-        TokenResponseDTO tokenDTO = new TokenResponseDTO();
+       // TokenResponseDTO tokenDTO = new TokenResponseDTO();
         RegisterResponseDTO registerResponseDTO = new RegisterResponseDTO();
         String token;
         LocalDate fechaNacimiento = registerRequest.validarFecha(registerRequest.getFechaNacimiento());

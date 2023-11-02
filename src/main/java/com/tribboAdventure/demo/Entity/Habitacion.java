@@ -43,6 +43,7 @@ public class Habitacion {
     @JoinColumn(name="id_piso")
     private Piso piso;
     
+    /*
     private Integer calcularPrecio(String tipoHab){
         if (this.tipoHabitacion.equalsIgnoreCase(tipoHab)) {
             this.precioHabitacion += 100;
@@ -51,4 +52,6 @@ public class Habitacion {
         }
         return precioHabitacion;
     }
+    
+    */
 }

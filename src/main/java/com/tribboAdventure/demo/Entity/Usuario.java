@@ -35,7 +35,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 @AllArgsConstructor
 @Table(name="usuarios")
 public class Usuario implements UserDetails{
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_Usuario;
     private String nombreCompleto;
