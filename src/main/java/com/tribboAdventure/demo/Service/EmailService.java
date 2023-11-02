@@ -2,11 +2,13 @@ package com.tribboAdventure.demo.Service;
 
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +17,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EmailService {
 
+	@Autowired
 	private final JavaMailSender emailSender;
+	
 	private final TemplateEngine templateEngine;
 
 	public void sendEmail(String nombre , String email) {
