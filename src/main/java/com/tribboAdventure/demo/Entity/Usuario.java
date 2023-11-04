@@ -5,13 +5,16 @@
 package com.tribboAdventure.demo.Entity;
 
 import com.tribboAdventure.demo.Enum.Role;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -35,13 +38,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 @AllArgsConstructor
 @Table(name="usuarios")
 public class Usuario implements UserDetails{
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	@Id
+
+    private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Usuario;
+    private Long id;
     private String nombreCompleto;
     private String apellidoCompleto;
     private String username;
@@ -56,6 +57,9 @@ public class Usuario implements UserDetails{
     
     @OneToMany(mappedBy = "usuario")
     private List<Tiket> tikets;
+    
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private VerificarMail verificarMail;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

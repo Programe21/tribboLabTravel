@@ -1,5 +1,8 @@
 package com.tribboAdventure.demo.Service;
 
+import com.tribboAdventure.demo.Entity.Usuario;
+import com.tribboAdventure.demo.Entity.VerificarMail;
+import com.tribboAdventure.demo.Repository.VerificarMailRepository;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,61 +14,69 @@ import org.thymeleaf.context.Context;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class EmailService {
 
-	@Autowired
-	private final JavaMailSender emailSender;
-	
-	private final TemplateEngine templateEngine;
+    @Autowired
+    private final JavaMailSender emailSender;
 
-	public void sendEmail(String nombre , String email) {
-	
-		try {
-			MimeMessage message = emailSender.createMimeMessage();
-			MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    private final TemplateEngine templateEngine;
+    
+    private final VerificarMailRepository verificarMailRepository;
 
-			helper.setFrom("leonardovargas5d2017@gmail.com");
-			helper.setTo(email);
-			helper.setSubject("Bienvenido");
+    public void sendEmail(Usuario usuario) {
+        VerificarMail verificarMail = new VerificarMail();
+        verificarMail.setExpiryDateTime(LocalDateTime.now());
+        verificarMail.setUsuario(usuario);
+        
+        try {
 
-			// Generar un código de verificación
-			String verificationCode = generateVerificationCode();
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-			// nombre de la persona
-			String personName = nombre;
+            helper.setFrom("leonardovargas5d2017@gmail.com");
+            helper.setTo(usuario.getUsername());
+            helper.setSubject("Bienvenido");
 
-			System.out.println(verificationCode);
+            // Generar un código de verificación
+            String verificationCode = generateVerificationCode();
+            // Aca esta asignando el token
+            verificarMail.setToken(verificationCode);
+            // nombre de la persona
+            String personName = usuario.getNombreCompleto() + " " + usuario.getApellidoCompleto();
 
-			// creamos un contexto para enviar al html los dtos de usuario que se registró
-			Context context = new Context();
-			context.setVariable("verificationCode", verificationCode);
-			context.setVariable("personName", personName);
+            System.out.println(verificationCode);
 
-			//con template egine procesamos nuestra plantilla y la agregamos al conte
-			String htmlContent = templateEngine.process("bienvenidaTribbo", context);
+            // creamos un contexto para enviar al html los dtos de usuario que se registró
+            Context context = new Context();
+            context.setVariable("verificationCode", verificationCode);
+            context.setVariable("personName", personName);
 
-			helper.setText(htmlContent, true);
+            //con template egine procesamos nuestra plantilla y la agregamos al conte
+            String htmlContent = templateEngine.process("bienvenidaTribbo", context);
 
-			//enviamos el email
-			emailSender.send(message);
-			System.out.println("Correo enviado con éxito.");
-			
-		} catch (MessagingException e) {
-			System.err.println("Error al enviar el correo: " + e.getMessage());
-		}
+            helper.setText(htmlContent, true);
 
-	}
+            //enviamos el email
+            emailSender.send(message);
+            System.out.println("Correo enviado con éxito.");
+            verificarMailRepository.save(verificarMail);
 
-	
-	// Generar un código aleatorio de 6 dígitos
-	private String generateVerificationCode() {
-		Random random = new Random();
-		int code = 100000 + random.nextInt(900000);
-		return String.valueOf(code);
-	}
+        } catch (MessagingException e) {
+            System.err.println("Error al enviar el correo: " + e.getMessage());
+        }
+
+    }
+
+    // Generar un código aleatorio de 6 dígitos
+    private String generateVerificationCode() {
+        Random random = new Random();
+        int code = 100000 + random.nextInt(900000);
+        return String.valueOf(code);
+    }
 
 }
