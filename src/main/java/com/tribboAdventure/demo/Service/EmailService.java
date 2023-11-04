@@ -30,7 +30,7 @@ public class EmailService {
 
     public void sendEmail(Usuario usuario) {
         VerificarMail verificarMail = new VerificarMail();
-        verificarMail.setExpiryDateTime(LocalDateTime.now());
+        verificarMail.setCreationDateTime(LocalDateTime.now());
         verificarMail.setUsuario(usuario);
         
         try {

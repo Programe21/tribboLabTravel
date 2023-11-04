@@ -32,8 +32,8 @@ public class VerificarMail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String token;
-    private LocalDateTime expiryDateTime;
+    private LocalDateTime creationDateTime;
     @OneToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id", nullable = false)
     private Usuario usuario;
 }

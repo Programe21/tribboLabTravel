@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Bienvenda</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+<style>
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      font-size: 24px;
+      text-align: center;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+    
+    span {
+        font-weight: bold;
+    }
+    
+    .codigo {
+      font-weight: bold;
+      color: red;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      background-color: #007bff;
+      border-radius: 10px;
+      font-size: 1rem;
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: auto;
+      width: 30%;
+      color: black;
+      font-weight: bold;
+    }
+    
+    a:hover{
+        background-color: crimson;
+        color: white;
+    }
+    
+    .nombre {
+        color: blue;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+  </style>
+
+</head>
+
+<body>
+	<div class="container">
+		<h1>BIENVENIDO A TRIBBO-ADVENTURE:<span class="nombre"> [[${personName}]]</span></h1>
+		<p>Bienvenido a TribboAdventure, tu puerta de entrada a un mundo lleno de emocionantes travesías y experiencias
+			inolvidables. En nuestra página, te invitamos a explorar destinos únicos, conectarte con culturas
+			fascinantes y descubrir la belleza de nuestro planeta. En cada viaje que emprendas con nosotros, encontrarás
+			aventura, descubrimiento y la oportunidad de crear recuerdos inolvidables.</p>
+
+		<p><span>CODIGO: </span><span class="codigo">[[${verificationCode}]] </span></p>
+
+		<a href="https://www.google.com/">Verificar codigo</a>
+	</div>
+
+
+</body>
+
+</html>
