@@ -9,7 +9,6 @@ import com.tribboAdventure.demo.Enum.Role;
 import com.tribboAdventure.demo.Exception.MiException;
 import com.tribboAdventure.demo.Jwt.JwtService;
 import com.tribboAdventure.demo.Repository.UsuarioRepository;
-import com.tribboAdventure.demo.Service.EmailService;
 import java.time.LocalDate;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +59,7 @@ public class AuthService {
         usuario.setPasaporte(registerRequest.getPasaporte());
         usuario.setRole(Role.USER);
         usuario.setAlta(true);
+        usuario.setEmailVerificado(false);
 
         //registramos el usuario
         userRepository.save(usuario);

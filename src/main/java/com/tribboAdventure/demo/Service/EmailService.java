@@ -5,7 +5,6 @@ import com.tribboAdventure.demo.Entity.VerificarMail;
 import com.tribboAdventure.demo.Repository.VerificarMailRepository;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EmailService {
 
-    @Autowired
     private final JavaMailSender emailSender;
 
     private final TemplateEngine templateEngine;
@@ -30,7 +28,12 @@ public class EmailService {
 
     public void sendEmail(Usuario usuario) {
         VerificarMail verificarMail = new VerificarMail();
-        verificarMail.setCreationDateTime(LocalDateTime.now());
+        
+       
+        verificarMail.setCreationTime(LocalDateTime.now());
+        
+        // se le agrega 10 min como tiempo masximo para utilizar el codigo que se envia
+        verificarMail.setExpirationTime(LocalDateTime.now().plusMinutes(1));
         verificarMail.setUsuario(usuario);
         
         try {

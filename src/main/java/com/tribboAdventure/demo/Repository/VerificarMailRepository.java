@@ -5,6 +5,9 @@
 package com.tribboAdventure.demo.Repository;
 
 import com.tribboAdventure.demo.Entity.VerificarMail;
+
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +17,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface VerificarMailRepository extends JpaRepository<VerificarMail, Long>{
+	
+	//Optional<VerificarMail> findById_usuario(Long id);
     
 }

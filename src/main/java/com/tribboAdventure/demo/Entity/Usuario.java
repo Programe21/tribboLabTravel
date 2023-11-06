@@ -51,6 +51,7 @@ public class Usuario implements UserDetails{
     private String numeroTelefonico;
     private Boolean alta; 
     private String pasaporte;
+    private Boolean emailVerificado;
     
     @Enumerated(EnumType.STRING) 
     private Role role;
