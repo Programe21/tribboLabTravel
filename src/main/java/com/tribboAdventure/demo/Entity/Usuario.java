@@ -4,7 +4,6 @@
  */
 package com.tribboAdventure.demo.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tribboAdventure.demo.Enum.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -60,12 +59,10 @@ public class Usuario implements UserDetails{
     @OneToMany(mappedBy = "usuario")
     private List<Tiket> tikets;
     
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private VerificarMail verificarMail;
-
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PasswordResetToken> passwordResetToken;
     
     @Override

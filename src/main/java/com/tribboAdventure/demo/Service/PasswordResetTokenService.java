@@ -7,13 +7,11 @@ package com.tribboAdventure.demo.Service;
 import com.tribboAdventure.demo.Entity.PasswordResetToken;
 import com.tribboAdventure.demo.Entity.Usuario;
 import com.tribboAdventure.demo.Repository.PasswordResetTokenRepository;
-import com.tribboAdventure.demo.Repository.UsuarioRepository;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**

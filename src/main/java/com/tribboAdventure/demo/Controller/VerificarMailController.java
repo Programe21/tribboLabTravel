@@ -14,13 +14,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/validarToken")
+@RequestMapping("/validarMail")
 @RequiredArgsConstructor
 public class VerificarMailController {
 	
 	private final VerificarMailService validacionService;
 
-	//todo-- recibir el id del usuario acomodar el metodo
 	
 	@PostMapping()
 	public ResponseEntity<?> validar(@RequestBody @Valid ValidarTokenDto token ) {
@@ -34,11 +33,5 @@ public class VerificarMailController {
 		
 	}
 	
-	
-	
-	@PostMapping("reset")
-	public  ResponseEntity<?> resetear() {
-		return null;
-	}
 	
 }

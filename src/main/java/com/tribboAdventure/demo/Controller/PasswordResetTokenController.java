@@ -8,21 +8,14 @@ import com.tribboAdventure.demo.DTO.Request.EnviarLinkResetPassDTO;
 import com.tribboAdventure.demo.DTO.Request.ResetPasswordRequestDTO;
 import com.tribboAdventure.demo.Entity.PasswordResetToken;
 import com.tribboAdventure.demo.Entity.Usuario;
-import com.tribboAdventure.demo.Repository.PasswordResetTokenRepository;
 import com.tribboAdventure.demo.Repository.UsuarioRepository;
 import com.tribboAdventure.demo.Service.PasswordResetTokenService;
 import jakarta.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,10 +32,10 @@ public class PasswordResetTokenController {
 
     private final UsuarioRepository userRepository;
     private final PasswordResetTokenService passwordResetTokenService;
-    private final PasswordResetTokenRepository passwordResetTokenRepository;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    //Este metodo envia el link para q el usuario acceda al mail con el q se registro y se lo envie ahi para restablecer la contraseña
+    // Este metodo envia el link para q el usuario acceda al mail con el q se
+    // registro y se lo envie ahi para restablecer la contraseña
     @PostMapping("/forgotPassword")
     public ResponseEntity<String> forgotPasswordProcess(@RequestBody @Valid EnviarLinkResetPassDTO userDTO) {
         try {
@@ -62,30 +55,7 @@ public class PasswordResetTokenController {
         }
     }
 
-    /*
-    //Este metodo se encarga de buscar el usuario q le llego el link a su mail y restablecer la contraseña
-    @PostMapping("/resetPassword")
-    public ResponseEntity<String> passwordResetProcess(@RequestBody @Valid ResetPasswordRequestDTO userDTO) {
-        
-        try {
-            Usuario user = userRepository.findByUsername(userDTO.getUsername()).orElse(null);
-            List<PasswordResetToken> lista= user.getPasswordResetToken();
-            
-            //En la parte del get hay q hacerlo dinamico
-            if (user != null ) {
-                
-                user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-                userRepository.save(user);
-
-                return ResponseEntity.status(HttpStatus.OK).body("Password reset successfully");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
-        }
-    }*/
-
+    // Resetear la pasword de usuario
     @PostMapping("/resetPassword")
     public ResponseEntity<String> passwordResetProcess(@RequestBody @Valid ResetPasswordRequestDTO userDTO) {
         try {
@@ -94,20 +64,18 @@ public class PasswordResetTokenController {
             if (user != null) {
                 List<PasswordResetToken> lista = user.getPasswordResetToken();
 
-                // Encuentra el PasswordResetToken correspondiente al usuario y el token proporcionado
+                // Encuentra una entidad passwordResetToken con el token recibido
                 PasswordResetToken passwordResetToken = lista.stream()
                         .filter(token -> token.getToken().equals(userDTO.getToken()))
                         .findFirst()
                         .orElse(null);
 
+                   // Si el token es válido y no ha expirado, actualiza la contraseña
                 if (passwordResetToken != null && !passwordResetToken.isExpired()) {
-                    // Si el token es válido y no ha expirado, actualiza la contraseña
+                 
                     user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
                     userRepository.save(user);
 
-                    // Elimina el token utilizado 
-                    //lista.remove(passwordResetToken);
-                    //passwordResetTokenRepository.delete(passwordResetToken);
                     return ResponseEntity.status(HttpStatus.OK).body("Password reset successfully");
                 } else {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired token");

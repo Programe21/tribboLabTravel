@@ -6,7 +6,6 @@ package com.tribboAdventure.demo.Repository;
 
 import com.tribboAdventure.demo.Entity.VerificarMail;
 
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

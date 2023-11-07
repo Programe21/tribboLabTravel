@@ -33,7 +33,7 @@ public class EmailService {
         verificarMail.setCreationTime(LocalDateTime.now());
         
         // se le agrega 10 min como tiempo masximo para utilizar el codigo que se envia
-        verificarMail.setExpirationTime(LocalDateTime.now().plusMinutes(1));
+        verificarMail.setExpirationTime(LocalDateTime.now().plusMinutes(30));
         verificarMail.setUsuario(usuario);
         
         try {
