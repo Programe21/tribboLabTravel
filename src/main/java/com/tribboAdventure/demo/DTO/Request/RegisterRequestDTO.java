@@ -7,6 +7,7 @@ package com.tribboAdventure.demo.DTO.Request;
 import com.tribboAdventure.demo.Exception.MiException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import lombok.AllArgsConstructor;
@@ -34,8 +35,10 @@ public class RegisterRequestDTO {
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "La dirección de correo electrónico no es válida")
     private String username;
     
-    @NotBlank(message = "La contrase\u00F1a no debe estar en blanco o nulo")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,15}$", message = "La contrase\u00F1a no cumple con los requisitos. Ingrese letras mayusculas y minusculas, numeros y un caracter especial. Maximo de caracteres: 15")
+    @NotBlank(message = "La contraseña no debe estar en blanco o nula")
+    @Size(max = 15, message = "La contraseña no debe superar los 15 caracteres")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{1,}$", 
+         message = "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial")
     private String password;
     
     @NotBlank(message = "La fecha de nacimiento no debe estar en blanco o nulo")
@@ -46,6 +49,7 @@ public class RegisterRequestDTO {
     private String numeroTelefonico;
     
     @NotBlank(message = "El pasaporte no debe estar en blanco o nulo")
+    @Pattern(regexp = "^[a-zA-Z0-9]{1,10}$", message = "El pasaporte debe contener letras y números, con un máximo de 10 caracteres")
     private String pasaporte;
     
     public LocalDate validarFecha(String fechaNacimiento) throws MiException  {

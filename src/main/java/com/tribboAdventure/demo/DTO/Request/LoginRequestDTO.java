@@ -6,6 +6,7 @@ package com.tribboAdventure.demo.DTO.Request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,9 @@ public class LoginRequestDTO {
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "La dirección de correo electrónico no es válida")        
     String username;
 
-    @NotBlank(message = "La contrase\u00F1a no debe estar en blanco o nulo")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,15}$", message = "La contrase\u00F1a no cumple con los requisitos")             
+    @NotBlank(message = "La contraseña no debe estar en blanco o nula")
+    @Size(max = 15, message = "La contraseña no debe superar los 15 caracteres")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{1,}$", 
+         message = "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial")             
     String password;
 }

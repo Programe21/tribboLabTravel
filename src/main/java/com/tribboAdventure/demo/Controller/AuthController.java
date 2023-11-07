@@ -8,6 +8,7 @@ import com.tribboAdventure.demo.DTO.Request.LoginRequestDTO;
 import com.tribboAdventure.demo.DTO.Request.RegisterRequestDTO;
 import com.tribboAdventure.demo.Exception.MiException;
 import com.tribboAdventure.demo.Service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class AuthController {
     
     
     @PostMapping("/login")
-    public ResponseEntity<?> Login(@RequestBody LoginRequestDTO request) {
+    public ResponseEntity<?> Login(@RequestBody @Valid LoginRequestDTO request) {
         try {
             return ResponseEntity.ok(authService.login(request));
         } catch (MiException miExeception) {
@@ -36,7 +37,7 @@ public class AuthController {
     }
     
     @PostMapping("/registro")
-    public ResponseEntity<?> registro(@RequestBody RegisterRequestDTO request) {
+    public ResponseEntity<?> registro(@RequestBody @Valid RegisterRequestDTO request) {
         try {
             return ResponseEntity.ok(authService.registro(request));
         } catch (MiException miException) {

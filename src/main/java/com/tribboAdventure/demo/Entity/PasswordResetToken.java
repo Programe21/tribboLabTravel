@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -27,16 +28,22 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "verificarMail")
-public class VerificarMail {
+@Table(name = "passwordresettoken")
+public class PasswordResetToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private String token;
-    private LocalDateTime creationTime;
-    private LocalDateTime expirationTime;
-    @OneToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id", nullable = false)
+    
+    private LocalDateTime expiryDateTime;
+    
+    @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @JsonIgnore
     private Usuario usuario;
+    
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(expiryDateTime);
+    }
 }
