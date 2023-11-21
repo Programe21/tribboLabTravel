@@ -19,20 +19,18 @@ public class VerificarMailService {
 		
 	private final UsuarioRepository usuarioRepository;
 	
+
+
 	public void validarToken( ValidarTokenRequestDTO token ) throws MiException {
-		// TODO imolementar el metodo con el token recibido b para mañanaaa
-		
-		//Optional<VerificarMail> validarEmail = verificarMailRepository.findById_usuario(id);
-		
-		Optional<Usuario> user = usuarioRepository.findById(token.id());
+
+		Optional<Usuario> user = usuarioRepository.findById(Long.valueOf( token.id()));
+
 		// realizar verificacion por si el usuario esta null   ojooooooooo...................
 		
 		LocalDateTime expirateTime = user.get().getVerificarMail().getExpirationTime();
 		
-		System.out.println(expirateTime + "----------");
 		Boolean expirado= hasExipred(expirateTime);
-		System.out.println(expirado);
-		//verificamos que la no este expirado el token
+		//verificamos que el token no este expirado el token
 		
 		if(!expirado) {
 			throw new MiException("codigo expirado" , HttpStatus.BAD_REQUEST);
@@ -48,7 +46,7 @@ public class VerificarMailService {
 		}
 	}
 	
-	
+	//metodo para verificar si esta expirada el token
 	public boolean hasExipred(LocalDateTime expiryDateTime) {
         LocalDateTime currentDateTime = LocalDateTime.now();        
         return expiryDateTime.isAfter(currentDateTime);
