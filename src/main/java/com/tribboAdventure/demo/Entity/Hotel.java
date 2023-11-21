@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Hotel;
+    private Long id;
     private String nombre;
     private String localidad;
     private String direccion;
@@ -45,24 +45,17 @@ public class Hotel {
     private List<Piso> pisos;
     
     
-    public Integer calcularPrecio(Integer cantidadDias, Integer numeroPiso, Integer numeroHabitacion){
+    public Integer calcularPrecio(){
         
         if (this.restaurante) {
             this.precioHotel += 50; 
         } else if(this.gimnasio) {
-            this.precioHotel += 20;
-        } else if(this.piscina){
-            this.precioHotel += 30;
-        }
-        
-        if (this.pisos.get(numeroPiso).getHabitaciones().get(numeroHabitacion).getTipoHabitacion().equalsIgnoreCase("SUITE")){
-            //REVISAR
             this.precioHotel += 100;
-        } else {
-            this.precioHotel += 50;
+        } else if(this.piscina){
+            this.precioHotel += 150;
         }
         
-        return precioHotel * cantidadDias;
+        return precioHotel ;
     }
     
 }

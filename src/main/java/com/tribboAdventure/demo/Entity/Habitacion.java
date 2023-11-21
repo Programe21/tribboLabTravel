@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 public class Habitacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Habitacion;
+    private Long id;
     @Enumerated(EnumType.STRING)
     private TipoHabitacion tipoHabitacion; 
     private String descripcion;
@@ -43,15 +43,17 @@ public class Habitacion {
     @JoinColumn(name="id_piso")
     private Piso piso;
     
-    /*
-    private Integer calcularPrecio(String tipoHab){
-        if (this.tipoHabitacion.equalsIgnoreCase(tipoHab)) {
-            this.precioHabitacion += 100;
-        } else {
-            this.precioHabitacion += 50;
+    
+    public Integer calcularPrecio(){
+        if (this.tipoHabitacion.equalsIgnoreCase("SUITE")) {
+            this.precioHabitacion += 500;
+        } else if (this.tipoHabitacion.equalsIgnoreCase("DOBLE")){
+            this.precioHabitacion += 300;
+        } else if(this.tipoHabitacion.equalsIgnoreCase("SIMPLE")){
+            this.precioHabitacion += 175;
         }
         return precioHabitacion;
     }
     
-    */
+    
 }

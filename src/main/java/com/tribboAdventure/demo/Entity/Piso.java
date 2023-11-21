@@ -29,13 +29,10 @@ import lombok.NoArgsConstructor;
 public class Piso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Piso;
+    private Long id;
     private Integer numeroPiso;
     private String descripcion;
-    private String tipoPiso;
-    private Boolean accesibilidad;
-    private String descripcionAccesibilidad;
-    
+
     @ManyToOne
     @JoinColumn(name="id_hotel")
     private Hotel hotel;

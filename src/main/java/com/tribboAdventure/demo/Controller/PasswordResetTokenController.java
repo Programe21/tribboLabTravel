@@ -4,7 +4,7 @@
  */
 package com.tribboAdventure.demo.Controller;
 
-import com.tribboAdventure.demo.DTO.Request.EnviarLinkResetPassDTO;
+import com.tribboAdventure.demo.DTO.Request.EnviarLinkResetPassRequestDTO;
 import com.tribboAdventure.demo.DTO.Request.ResetPasswordRequestDTO;
 import com.tribboAdventure.demo.Entity.PasswordResetToken;
 import com.tribboAdventure.demo.Entity.Usuario;
@@ -44,7 +44,7 @@ public class PasswordResetTokenController {
 
     //Este metodo envia el link para q el usuario acceda al mail con el q se registro y se lo envie ahi para restablecer la contraseña
     @PostMapping("/forgotPassword")
-    public ResponseEntity<String> forgotPasswordProcess(@RequestBody @Valid EnviarLinkResetPassDTO userDTO) {
+    public ResponseEntity<String> forgotPasswordProcess(@RequestBody @Valid EnviarLinkResetPassRequestDTO userDTO) {
         try {
             Usuario user = userRepository.findByUsername(userDTO.getUsername()).orElse(null);
 

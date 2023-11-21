@@ -4,9 +4,14 @@
  */
 package com.tribboAdventure.demo.Service;
 
+import com.tribboAdventure.demo.DTO.Request.ModificarUsuarioRequestDTO;
+import com.tribboAdventure.demo.DTO.Response.ModificarUsuarioResponseDTO;
 import com.tribboAdventure.demo.Entity.Usuario;
+import com.tribboAdventure.demo.Exception.MiException;
 import com.tribboAdventure.demo.Repository.UsuarioRepository;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,8 +26,6 @@ import org.springframework.stereotype.Service;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-   
-
 
     public Usuario nuevoUsuario(Usuario usuario) {
         Usuario nuevoUsuario = new Usuario();
@@ -56,17 +59,25 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario modificarUsuario(Long id, Usuario usuario) {
-        Usuario usuarioModificado = usuarioRepository.findById(id).get();
+    public ModificarUsuarioResponseDTO modificarUsuario(Long id, ModificarUsuarioRequestDTO usuarioDTO) throws MiException {
+        try {
+            LocalDate fechaNacimiento = usuarioDTO.validarFecha(usuarioDTO.getFechaNacimiento());
+            Usuario usuarioModificado = usuarioRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 
-        usuarioModificado.setNombreCompleto(usuario.getNombreCompleto());
-        usuarioModificado.setApellidoCompleto(usuario.getApellidoCompleto());
-        usuarioModificado.setUsername(usuario.getUsername());
-        usuarioModificado.setPassword(usuario.getPassword());
-        usuarioModificado.setFechaNacimiento(usuario.getFechaNacimiento());
-        usuarioModificado.setNumeroTelefonico(usuario.getNumeroTelefonico());
+            usuarioModificado.setNombreCompleto(usuarioDTO.getNombreCompleto());
+            usuarioModificado.setApellidoCompleto(usuarioDTO.getApellidoCompleto());
+            usuarioModificado.setFechaNacimiento(fechaNacimiento);
+            usuarioModificado.setNumeroTelefonico(usuarioDTO.getNumeroTelefonico());
 
-        return usuarioRepository.save(usuarioModificado);
+            Usuario usuarioGuardado = usuarioRepository.save(usuarioModificado);
+
+            return new ModificarUsuarioResponseDTO(usuarioGuardado.getId(), usuarioGuardado.getNombreCompleto(),
+                    usuarioGuardado.getApellidoCompleto(), usuarioGuardado.getFechaNacimiento(),
+                    usuarioGuardado.getNumeroTelefonico());
+        } catch (MiException ex) {
+            
+            throw new MiException(ex.getMensaje(), ex.getStatus());
+        }
     }
 
     public boolean usuarioExiste(String ussername) {

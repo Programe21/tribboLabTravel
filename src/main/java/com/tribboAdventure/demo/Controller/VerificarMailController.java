@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tribboAdventure.demo.DTO.Request.ValidarTokenDto;
+import com.tribboAdventure.demo.DTO.Request.ValidarTokenRequestDTO;
 import com.tribboAdventure.demo.Service.VerificarMailService;
 
 import jakarta.validation.Valid;
@@ -23,7 +23,7 @@ public class VerificarMailController {
 	//todo-- recibir el id del usuario acomodar el metodo
 	
 	@PostMapping()
-	public ResponseEntity<?> validar(@RequestBody @Valid ValidarTokenDto token ) {
+	public ResponseEntity<?> validar(@RequestBody @Valid ValidarTokenRequestDTO token ) {
 		
 		try {
 			validacionService.validarToken(token);

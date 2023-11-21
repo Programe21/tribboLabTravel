@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class Esparcimiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Esparcimiento;
+    private Long id;
     private String nombreActividad;
     private String descripcion;
     private String direccion;

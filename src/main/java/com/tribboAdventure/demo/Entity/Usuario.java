@@ -61,11 +61,9 @@ public class Usuario implements UserDetails{
     private List<Tiket> tikets;
     
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    
     private VerificarMail verificarMail;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    
     private List<PasswordResetToken> passwordResetToken;
     
     @Override

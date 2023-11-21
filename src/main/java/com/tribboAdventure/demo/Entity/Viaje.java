@@ -4,6 +4,7 @@
  */
 package com.tribboAdventure.demo.Entity;
 
+import com.tribboAdventure.demo.DTO.Request.ViajeRequestDTO;
 import com.tribboAdventure.demo.Enum.Categoria;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,11 +33,10 @@ import lombok.NoArgsConstructor;
 public class Viaje {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Viaje;
+    private Long id;
     private String destino;
-    private LocalDate fechaSalida;
-    private LocalDate fechaLlegada;
-    private Boolean alta;
+    private LocalDate salida;
+    private LocalDate llegada;
     
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
@@ -45,4 +46,16 @@ public class Viaje {
     
     @OneToMany(mappedBy = "viaje")
     private List<Esparcimiento> esparcimientos;
+    
+    public Viaje (ViajeRequestDTO viajeDTO){
+        this.destino = viajeDTO.getDestino();
+        this.categoria = viajeDTO.getCategoria();
+        
+    }
+    /*
+    private Categoria validar(Categoria categoria){
+        if (categoria == null || ) {
+            
+        }
+    }*/
 }

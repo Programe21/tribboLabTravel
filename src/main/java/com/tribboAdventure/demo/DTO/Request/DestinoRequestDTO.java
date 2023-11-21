@@ -5,6 +5,7 @@
 package com.tribboAdventure.demo.DTO.Request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,10 +17,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EnviarLinkResetPassDTO {
-    @NotBlank(message = "El correo electronico no debe estar en blanco o nulo")
-    private String username;
-    
-    
-    
+public class DestinoRequestDTO {
+    @NotBlank(message = "El destino no debe estar en blanco o nulo")
+    @Pattern(regexp = "^[a-zA-ZÀ-ÿ\\s']{1,30}$", message = "El destino debe contener solo letras y tener un máximo de 30 caracteres")
+    private String destino;
 }

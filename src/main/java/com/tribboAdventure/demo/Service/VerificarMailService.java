@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.tribboAdventure.demo.DTO.Request.ValidarTokenDto;
+import com.tribboAdventure.demo.DTO.Request.ValidarTokenRequestDTO;
 import com.tribboAdventure.demo.Entity.Usuario;
 import com.tribboAdventure.demo.Exception.MiException;
 import com.tribboAdventure.demo.Repository.UsuarioRepository;
@@ -19,7 +19,7 @@ public class VerificarMailService {
 		
 	private final UsuarioRepository usuarioRepository;
 	
-	public void validarToken( ValidarTokenDto token ) throws MiException {
+	public void validarToken( ValidarTokenRequestDTO token ) throws MiException {
 		// TODO imolementar el metodo con el token recibido b para mañanaaa
 		
 		//Optional<VerificarMail> validarEmail = verificarMailRepository.findById_usuario(id);
