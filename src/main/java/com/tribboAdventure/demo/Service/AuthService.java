@@ -2,6 +2,7 @@ package com.tribboAdventure.demo.Service;
 
 import com.tribboAdventure.demo.DTO.Request.LoginRequestDTO;
 import com.tribboAdventure.demo.DTO.Request.RegisterRequestDTO;
+import com.tribboAdventure.demo.DTO.Response.LoginResponseDTO;
 import com.tribboAdventure.demo.DTO.Response.RegisterResponseDTO;
 import com.tribboAdventure.demo.DTO.Response.TokenResponseDTO;
 import com.tribboAdventure.demo.Entity.Usuario;
@@ -78,34 +79,37 @@ public class AuthService {
         registerResponseDTO.setToken(token);
         return ResponseEntity.ok(registerResponseDTO);
     }
+    
+    public ResponseEntity<?> login(LoginRequestDTO loginRequest) {
+    try {
+        Optional<Usuario> usuarioOptional = userRepository.findByUsername(loginRequest.getUsername());
 
-    public ResponseEntity<?> login(LoginRequestDTO loginRequest) throws MiException {
-        try {
-            
-            Optional<Usuario> usuario = userRepository.findByUsername(loginRequest.getUsername());
-
-            
-            if (!usuario.isPresent()) {
-                //Verifica si el usuario esta en la db. Si el usuariono esta registrado,
-                //larga esa exception. Si me da true sigue con el metodo
-                throw new MiException("Usuario no registrado", HttpStatus.BAD_REQUEST);
-            }
-            
-            UserDetails user = usuario.get();
-            
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-            
-            String token = jwtService.getToken(user);
-
-            TokenResponseDTO tokenDTO = new TokenResponseDTO();
-            tokenDTO.setToken(token);
-
-            return ResponseEntity.ok(tokenDTO);
-        }  catch (Exception   e) {
-            throw new MiException(e.getMessage(), HttpStatus.BAD_REQUEST);
+        if (usuarioOptional.isEmpty()) {
+            throw new MiException("Usuario no registrado", HttpStatus.BAD_REQUEST);
         }
+
+        UserDetails user = usuarioOptional.get();
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+        String token = jwtService.getToken(user);
+
+        // Obtener información adicional del usuario, como el nombre
+        String nombreUsuario = user.getUsername(); // Ajusta según la estructura de tu UserDetails
+
+        // Crear el objeto LoginResponseDTO
+        LoginResponseDTO responseDTO = new LoginResponseDTO();
+        responseDTO.setToken(token);
+        responseDTO.setNombre(nombreUsuario);
+
+        return ResponseEntity.ok(responseDTO);
+    } catch (MiException e) {
+        return new ResponseEntity<>(e.getMessage(), e.getStatus());
+    } catch (Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+}
 
 
 }

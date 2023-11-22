@@ -98,6 +98,8 @@ public class Usuario implements UserDetails{
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.nombreCompleto;
     }
+    
+
 }
