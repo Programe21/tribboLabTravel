@@ -7,12 +7,14 @@ package com.tribboAdventure.demo.Service;
 import com.tribboAdventure.demo.DTO.Request.FechasRequestDTO;
 import com.tribboAdventure.demo.DTO.Request.DestinoRequestDTO;
 import com.tribboAdventure.demo.DTO.Request.ViajeRequestDTO;
+import com.tribboAdventure.demo.DTO.Response.ListarViajesResponseDto;
 import com.tribboAdventure.demo.DTO.Response.ViajeResponseDTO;
 import com.tribboAdventure.demo.Entity.Viaje;
 import com.tribboAdventure.demo.Exception.MiException;
 import com.tribboAdventure.demo.Repository.ViajeRepository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,13 @@ import org.springframework.stereotype.Service;
 public class ViajeService {
 
     private final ViajeRepository viajeRepository;
+    
+    
+    
+    
+    
+    
+    
 
     public ViajeResponseDTO crearViaje(ViajeRequestDTO viajeDTO) throws MiException {
         Viaje nuevoViaje = new Viaje(viajeDTO);;
@@ -105,5 +114,14 @@ public class ViajeService {
             throw new MiException(e.getMessage());
         }
     }
+
+	public List<ListarViajesResponseDto> findAll() {
+		
+		List<Viaje> viajes = viajeRepository.findAll();	
+		
+		List<ListarViajesResponseDto> viajesReponse = viajes.stream().map(ListarViajesResponseDto::new).collect(Collectors.toList());
+									
+		return viajesReponse;
+	}
 
 }
