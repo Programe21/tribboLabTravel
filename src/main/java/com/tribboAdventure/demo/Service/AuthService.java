@@ -4,7 +4,6 @@ import com.tribboAdventure.demo.DTO.Request.LoginRequestDTO;
 import com.tribboAdventure.demo.DTO.Request.RegisterRequestDTO;
 import com.tribboAdventure.demo.DTO.Response.LoginResponseDTO;
 import com.tribboAdventure.demo.DTO.Response.RegisterResponseDTO;
-import com.tribboAdventure.demo.DTO.Response.TokenResponseDTO;
 import com.tribboAdventure.demo.Entity.Usuario;
 import com.tribboAdventure.demo.Enum.Role;
 import com.tribboAdventure.demo.Exception.MiException;
@@ -18,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -88,7 +86,7 @@ public class AuthService {
             throw new MiException("Usuario no registrado", HttpStatus.BAD_REQUEST);
         }
 
-        UserDetails user = usuarioOptional.get();
+        Usuario user = usuarioOptional.get();
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -96,12 +94,14 @@ public class AuthService {
         String token = jwtService.getToken(user);
 
         // Obtener información adicional del usuario, como el nombre
-        String nombreUsuario = user.getUsername(); // Ajusta según la estructura de tu UserDetails
-
+        String username = user.getUsername(); // Ajusta según la estructura de tu UserDetails
+        String nombre = user.getNombreCompleto();
+        
         // Crear el objeto LoginResponseDTO
         LoginResponseDTO responseDTO = new LoginResponseDTO();
         responseDTO.setToken(token);
-        responseDTO.setNombre(nombreUsuario);
+        responseDTO.setUsername(username);
+        responseDTO.setNombre(nombre);
 
         return ResponseEntity.ok(responseDTO);
     } catch (MiException e) {

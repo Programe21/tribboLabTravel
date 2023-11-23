@@ -7,7 +7,6 @@ package com.tribboAdventure.demo.Controller;
 import com.tribboAdventure.demo.DTO.Request.FechasRequestDTO;
 import com.tribboAdventure.demo.DTO.Request.DestinoRequestDTO;
 import com.tribboAdventure.demo.DTO.Request.ViajeRequestDTO;
-import com.tribboAdventure.demo.DTO.Response.ListarViajesResponseDto;
 import com.tribboAdventure.demo.DTO.Response.ViajeResponseDTO;
 import com.tribboAdventure.demo.Exception.MiException;
 import com.tribboAdventure.demo.Service.ViajeService;
@@ -45,20 +44,15 @@ public class ViajeController {
         }
     }
 
-
-    
-    @GetMapping
-    public ResponseEntity<?>listarAll() {
+    @GetMapping("")
+    public ResponseEntity<?> listarAll() {
         try {
-            List<ListarViajesResponseDto> viajes = viajeService.findAll();
+            List<ViajeResponseDTO> viajes = viajeService.listar();
             return ResponseEntity.ok(viajes);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-    
-    
-
 
     @GetMapping("/")
     public ResponseEntity<?> buscarPorFechas(

@@ -14,8 +14,8 @@ import java.time.LocalDate;
  *
  * @author Admin
  */
-public record ViajeResponseDTO(Long id, String destino, LocalDate salida, LocalDate llegada, Categoria categoria) {
+public record ViajeResponseDTO(Long id, String destino, LocalDate salida, LocalDate llegada, String aerolinea, Double precio, String horaSalida, String horaLlegada,  Categoria categoria) {
     public ViajeResponseDTO(Viaje viaje){
-        this(viaje.getId(), viaje.getDestino(), viaje.getSalida(), viaje.getLlegada(), viaje.getCategoria());
+        this(viaje.getId(), viaje.getDestino(), viaje.getSalida(), viaje.getLlegada(), viaje.getAerolinea(), viaje.getPrecio(), viaje.getHoraSalida(), viaje.getHoraLlegada(), viaje.getCategoria());
     }
 }

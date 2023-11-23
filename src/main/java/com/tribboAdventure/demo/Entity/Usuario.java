@@ -98,7 +98,7 @@ public class Usuario implements UserDetails{
 
     @Override
     public String getUsername() {
-        return this.nombreCompleto;
+        return this.username;
     }
     
 

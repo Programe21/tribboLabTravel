@@ -37,6 +37,10 @@ public class Viaje {
     private String destino;
     private LocalDate salida;
     private LocalDate llegada;
+    private String aerolinea;
+    private Double precio;
+    private String horaLlegada;
+    private String horaSalida;
     
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
@@ -52,10 +56,5 @@ public class Viaje {
         this.categoria = viajeDTO.getCategoria();
         
     }
-    /*
-    private Categoria validar(Categoria categoria){
-        if (categoria == null || ) {
-            
-        }
-    }*/
+
 }
